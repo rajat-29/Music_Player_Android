@@ -21,6 +21,7 @@
             android:src="@drawable/logo"/>
 
         <TextView
+            android:id="@+id/songLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Song Name"
@@ -52,6 +53,30 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="40dp"/>
+
+            <Button
+                android:id="@+id/pause"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/icon_pause"
+                android:layout_marginTop="5dp"/>
+
+            <Button
+                android:id="@+id/next"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/pause"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/icon_next"/>
+
+            <Button
+                android:id="@+id/prev"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toLeftOf="@id/pause"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/icon_prev"/>
 
         </RelativeLayout>
 
