@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 String songName = myListViewForSongs.getItemAtPosition(position).toString();
 
                 startActivity(new Intent(getApplicationContext(),PlayerActivity.class)
-                .putExtra("songs",mySongs).putExtra("songname",songName));
+                .putExtra("songs",mySongs).putExtra("songname",songName).putExtra("pos",position));
 
 
             }

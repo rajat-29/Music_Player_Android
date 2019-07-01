@@ -2,6 +2,7 @@ package com.example.music_player;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -79,5 +80,33 @@ public class PlayerActivity extends AppCompatActivity {
 
         songTextLabel.setText(songName);
         songTextLabel.setSelected(true);
+
+        position = bundle.getInt("pos",0);
+
+        Uri u = Uri.parse(mySongs.get(position).toString());
+
+        myMediaPlayer = MediaPlayer.create(getApplicationContext(),u);
+
+        myMediaPlayer.start();
+        songSeekbar.setMax(myMediaPlayer.getDuration());
+
+        songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+                myMediaPlayer.seekTo(seekBar.getProgress());
+
+            }
+        });
     }
 }
