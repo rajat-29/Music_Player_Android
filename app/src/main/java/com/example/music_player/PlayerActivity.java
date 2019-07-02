@@ -1,10 +1,13 @@
 package com.example.music_player;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -12,6 +15,8 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static android.graphics.PorterDuff.Mode.SRC_IN;
 
 public class PlayerActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class PlayerActivity extends AppCompatActivity {
     ArrayList<File> mySongs;
     Thread updateseekBar;
 
+    @SuppressLint("NewApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +45,10 @@ public class PlayerActivity extends AppCompatActivity {
 
         songSeekbar = (SeekBar)findViewById(R.id.seekBar);
 
+        getSupportActionBar().setTitle("Now Playing");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         updateseekBar = new Thread()
         {
             @Override
@@ -51,7 +61,7 @@ public class PlayerActivity extends AppCompatActivity {
                 {
                     try
                     {
-                        sleep(500);
+                        sleep(1000);
                         currentPosition = myMediaPlayer.getCurrentPosition();
                         songSeekbar.setProgress(currentPosition);
                     }
@@ -90,6 +100,11 @@ public class PlayerActivity extends AppCompatActivity {
 
         myMediaPlayer.start();
         songSeekbar.setMax(myMediaPlayer.getDuration());
+
+        updateseekBar.start();
+
+        songSeekbar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
+        songSeekbar.getThumb().setColorFilter(getResources().getColor(R.color.colorPrimary), SRC_IN);
 
         songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -167,5 +182,16 @@ public class PlayerActivity extends AppCompatActivity {
                 myMediaPlayer.start();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == android.R.id.home)
+        {
+            onBackPressed();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
