@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -106,6 +107,64 @@ public class PlayerActivity extends AppCompatActivity {
 
                 myMediaPlayer.seekTo(seekBar.getProgress());
 
+            }
+        });
+
+        btn_pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                songSeekbar.setMax(myMediaPlayer.getDuration());
+
+                if(myMediaPlayer.isPlaying())
+                {
+                    btn_pause.setBackgroundResource(R.drawable.icon_play);
+                    myMediaPlayer.pause();
+                }
+                else
+                {
+                    btn_pause.setBackgroundResource(R.drawable.icon_pause);
+                    myMediaPlayer.start();
+                }
+            }
+        });
+
+        btn_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myMediaPlayer.stop();
+                myMediaPlayer.release();
+                position = ((position+1)%mySongs.size());
+
+                Uri u = Uri.parse(mySongs.get(position).toString());
+
+                myMediaPlayer = MediaPlayer.create(getApplicationContext(),u);
+
+                sname = mySongs.get(position).getName().toString();
+                songTextLabel.setText(sname);
+
+                myMediaPlayer.start();
+
+            }
+        });
+
+        btn_prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                myMediaPlayer.stop();
+                myMediaPlayer.release();
+                position = ((position-1)<0)?(mySongs.size()-1):(position-1);
+
+                Uri u = Uri.parse(mySongs.get(position).toString());
+
+                myMediaPlayer = MediaPlayer.create(getApplicationContext(),u);
+
+                sname = mySongs.get(position).getName().toString();
+                songTextLabel.setText(sname);
+
+                myMediaPlayer.start();
             }
         });
     }
