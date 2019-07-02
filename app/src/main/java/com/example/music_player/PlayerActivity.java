@@ -15,13 +15,14 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import static android.graphics.PorterDuff.Mode.SRC_IN;
 
 public class PlayerActivity extends AppCompatActivity {
 
     Button btn_next,btn_prev,btn_pause;
-    TextView songTextLabel;
+    TextView songTextLabel,positionStart,positionEnd;
     SeekBar songSeekbar;
 
     static MediaPlayer myMediaPlayer;
@@ -45,6 +46,9 @@ public class PlayerActivity extends AppCompatActivity {
 
         songSeekbar = (SeekBar)findViewById(R.id.seekBar);
 
+        positionEnd=(TextView)findViewById(R.id.positionEnd);
+        positionStart=(TextView) findViewById(R.id.positionStart);
+
         getSupportActionBar().setTitle("Now Playing");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -55,6 +59,17 @@ public class PlayerActivity extends AppCompatActivity {
             public void run() {
 
                 int totalDuration = myMediaPlayer.getDuration();
+
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(totalDuration);
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(totalDuration);
+                seconds=seconds-60*minutes;
+                String dur;
+                if(minutes==0)
+                    dur="0:"+String.valueOf(seconds);
+                else
+                    dur=String.valueOf(minutes)+":"+String.valueOf(seconds);
+                positionEnd.setText(String.valueOf(dur));
+
                 int currentPosition = 0;
 
                 while(currentPosition<totalDuration)
@@ -109,6 +124,19 @@ public class PlayerActivity extends AppCompatActivity {
         songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(progress);
+                progress=progress-(int)minutes*60;
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(progress);
+                seconds=seconds-60*minutes;
+                String dur;
+                if(minutes==0)
+                    dur="0:"+String.valueOf(seconds);
+                else
+                    dur=String.valueOf(minutes)+":"+String.valueOf(seconds);
+
+
+                positionStart.setText(dur);
 
             }
 
