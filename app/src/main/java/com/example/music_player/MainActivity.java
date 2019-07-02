@@ -30,11 +30,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportActionBar().setTitle("My Music");
+
         myListViewForSongs = (ListView) findViewById(R.id.mySongListView);
 
         runtimePermission();
     }
 
+    // method for run time external storage permission
     public void runtimePermission()
     {
         // Using Dexter to get Permissions

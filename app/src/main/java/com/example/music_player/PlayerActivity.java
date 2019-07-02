@@ -49,10 +49,12 @@ public class PlayerActivity extends AppCompatActivity {
         positionEnd=(TextView)findViewById(R.id.positionEnd);
         positionStart=(TextView) findViewById(R.id.positionStart);
 
+        //change title bar an back button
         getSupportActionBar().setTitle("Now Playing");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        // thread to update seek bar
         updateseekBar = new Thread()
         {
             @Override
@@ -65,7 +67,7 @@ public class PlayerActivity extends AppCompatActivity {
                 seconds=seconds-60*minutes;
                 String dur;
                 if(minutes==0)
-                    dur="0:"+String.valueOf(seconds);
+                    dur="00:"+String.valueOf(seconds);
                 else
                     dur=String.valueOf(minutes)+":"+String.valueOf(seconds);
                 positionEnd.setText(String.valueOf(dur));
@@ -95,6 +97,7 @@ public class PlayerActivity extends AppCompatActivity {
             myMediaPlayer.release();
         }
 
+        // to extract putExtra arrayList and song Name
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
 
@@ -121,6 +124,7 @@ public class PlayerActivity extends AppCompatActivity {
         songSeekbar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.colorPrimary), PorterDuff.Mode.MULTIPLY);
         songSeekbar.getThumb().setColorFilter(getResources().getColor(R.color.colorPrimary), SRC_IN);
 
+        // seekbar updations
         songSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -153,6 +157,7 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
 
+        //pause button method
         btn_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,6 +177,7 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
 
+        // next button method
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,6 +198,7 @@ public class PlayerActivity extends AppCompatActivity {
             }
         });
 
+        //prev button method
         btn_prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,6 +219,7 @@ public class PlayerActivity extends AppCompatActivity {
         });
     }
 
+    // back button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
